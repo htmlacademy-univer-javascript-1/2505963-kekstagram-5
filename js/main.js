@@ -1,1 +1,1 @@
-import './popup_big_pics.js';
+import './big_popup.js';
