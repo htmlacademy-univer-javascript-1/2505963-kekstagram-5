@@ -4,8 +4,14 @@ import {
   DEFAULT_SCALE,
   onPicSmallerBtnClick,
   onPicBiggerBtnClick
-} from './input-pic_scale.js';
-import {onEffectsListClick} from './input-pic_effects.js';
+} from './input-pic-scale.js';
+import {onEffectsListClick} from './input-pic-effects.js';
+import {uploadPhotosData} from './api.js';
+
+const uploadBtnText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикация...'
+};
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -21,12 +27,16 @@ const picPreview = document.querySelector('.img-upload__preview');
 const effectsList = document.querySelector('.effects__list');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
+const uploadBtn = document.querySelector('.img-upload__submit');
+const successBlock = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const successBtn = successBlock.querySelector('.success__button');
+const errorBlock = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+const errorBtn = successBlock.querySelector('.error__button');
 
-const onFormSubmit = (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-};
+successBlock.classList.add('hidden');
+body.appendChild(successBlock);
+errorBlock.classList.add('hidden');
+body.appendChild(errorBlock);
 
 function cancelDocumentKeyDown (evt) {
   evt.stopPropagation();
@@ -35,6 +45,59 @@ function cancelDocumentKeyDown (evt) {
 const onDocumentKeyDown = (evt) => {
   if (isEscapeKey(evt)) {
     onFormCancel();
+  }
+};
+
+const onSuccessBlockKeyDown = (evt) => {
+  if (isEscapeKey(evt)) {
+    onSuccessBlockCancel();
+  }
+};
+
+const onErrorBlockKeyDown = (evt) => {
+  if (isEscapeKey(evt)) {
+    onErrorBlockCancel();
+  }
+};
+
+const blockUploadBtn = () => {
+  uploadBtn.disabled = true;
+  uploadBtn.textContent = uploadBtnText.SENDING;
+};
+
+const unblockUploadBtn = () => {
+  uploadBtn.disabled = false;
+  uploadBtn.textContent = uploadBtnText.IDLE;
+};
+
+const onSuccessUpload = () => {
+  unblockUploadBtn();
+  onFormCancel();
+
+  successBlock.classList.remove('hidden');
+  successBlock.addEventListener('click', onClickOutsideSuccessBlock);
+  document.addEventListener('keydown', onSuccessBlockKeyDown);
+  successBtn.addEventListener('click', onSuccessBlockCancel);
+};
+
+const onFailUpload = () => {
+  unblockUploadBtn();
+
+  errorBlock.classList.remove('hidden');
+  errorBlock.addEventListener('click', onClickOutsideErrorBlock);
+  document.removeEventListener('keydown', onDocumentKeyDown);
+  document.addEventListener('keydown', onErrorBlockKeyDown);
+  errorBtn.addEventListener('click', onErrorBlockCancel);
+};
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  const isValid = pristine.validate();
+  if (isValid) {
+    blockUploadBtn();
+    const requestBody = new FormData(form);
+    uploadPhotosData(onSuccessUpload, onFailUpload, requestBody);
   }
 };
 
@@ -48,7 +111,7 @@ function onFormCancel () {
   hashtagsInput.removeEventListener('keydown', cancelDocumentKeyDown);
   descriptionInput.removeEventListener('keydown', cancelDocumentKeyDown);
 
-  picScale['value'] = DEFAULT_SCALE;
+  picScale['value'] = `${DEFAULT_SCALE}%`;
   picPreview.style.transform = `scale(${DEFAULT_SCALE.toString()[0]})`;
   picSmallerBtn.removeEventListener('click', onPicSmallerBtnClick);
   picBiggerBtn.removeEventListener('click', onPicBiggerBtnClick);
@@ -56,6 +119,30 @@ function onFormCancel () {
   effectLevelValue['value'] = '';
   picPreview.style.filter = '';
   effectsList.removeEventListener('click', onEffectsListClick);
+}
+
+function onSuccessBlockCancel () {
+  successBlock.classList.add('hidden');
+  document.removeEventListener('keydown', onSuccessBlockKeyDown);
+}
+
+function onErrorBlockCancel () {
+  errorBlock.classList.add('hidden');
+  document.addEventListener('keydown', onDocumentKeyDown);
+}
+
+function onClickOutsideSuccessBlock (evt) {
+  if (!evt.target.matches('.success__inner')) {
+    successBlock.classList.add('hidden');
+    document.removeEventListener('keydown', onSuccessBlockKeyDown);
+  }
+}
+
+function onClickOutsideErrorBlock (evt) {
+  if (!evt.target.matches('.error__inner')) {
+    errorBlock.classList.add('hidden');
+    document.addEventListener('keydown', onDocumentKeyDown);
+  }
 }
 
 const onPhotoInput = () => {
