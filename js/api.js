@@ -1,16 +1,16 @@
-const URLS = {
+const Urls = {
   GET: 'https://29.javascript.htmlacademy.pro/kekstagram/data',
   POST: 'https://29.javascript.htmlacademy.pro/kekstagram'
 };
 
-const ERROR_MESSAGES = {
+const ErrorMessages = {
   GET: 'Ошибка загрузки изображений. Попробуйте перезагрузить страницу',
   POST: 'Ошибка отправки данных. Попробуйте ещё раз'
 };
 
 const sendRequest = (onSuccess, onFail, method, errorMessage, body) => {
   fetch(
-    URLS[method],
+    Urls[method],
     {
       method: method,
       body: body
@@ -26,10 +26,10 @@ const sendRequest = (onSuccess, onFail, method, errorMessage, body) => {
 };
 
 const loadPhotosData = (onSuccess, onFail) => {
-  sendRequest(onSuccess, onFail, 'GET', ERROR_MESSAGES.GET);
+  sendRequest(onSuccess, onFail, 'GET', ErrorMessages.GET);
 };
 const uploadPhotosData = (onSuccess, onFail, body) => {
-  sendRequest(onSuccess, onFail, 'POST', ERROR_MESSAGES.POST, body);
+  sendRequest(onSuccess, onFail, 'POST', ErrorMessages.POST, body);
 };
 
 export {loadPhotosData, uploadPhotosData};

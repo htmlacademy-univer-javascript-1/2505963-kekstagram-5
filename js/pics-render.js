@@ -1,10 +1,10 @@
-const picTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const picsContainer = document.querySelector('.pictures');
+const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const picturesContainer = document.querySelector('.pictures');
 
-const renderPics = (photosData) => {
-  if (picsContainer.children.length > 2) {
-    while (picsContainer.children.length > 2) {
-      const photo = picsContainer.lastChild;
+const renderPictures = (photosData) => {
+  if (picturesContainer.children.length > 2) {
+    while (picturesContainer.children.length > 2) {
+      const photo = picturesContainer.lastChild;
       photo.parentNode.removeChild(photo);
     }
   }
@@ -12,7 +12,7 @@ const renderPics = (photosData) => {
   const fragment = document.createDocumentFragment();
 
   photosData.forEach((photo) => {
-    const photoElement = picTemplate.cloneNode(true);
+    const photoElement = pictureTemplate.cloneNode(true);
 
     photoElement.querySelector('img').src = photo.url;
     photoElement.querySelector('img').alt = photo.description;
@@ -22,7 +22,7 @@ const renderPics = (photosData) => {
     fragment.appendChild(photoElement);
   });
 
-  picsContainer.appendChild(fragment);
+  picturesContainer.appendChild(fragment);
 };
 
-export {renderPics, picsContainer};
+export {renderPictures, picturesContainer};

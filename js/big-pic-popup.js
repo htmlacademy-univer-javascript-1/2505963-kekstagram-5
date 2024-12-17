@@ -1,12 +1,9 @@
 import {photosData} from './main.js';
-import {picsContainer} from './pics-render.js';
+import {picturesContainer} from './pics-render.js';
 import {isEscapeKey} from './util.js';
 
 const COMMENTS_STEP = 5;
 const COMMENT_AVATAR_SIZE = 35;
-
-let curPicCommsCount = COMMENTS_STEP;
-let curComms = [];
 
 const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
@@ -16,8 +13,11 @@ const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const bigPictureComments = bigPicture.querySelector('.social__comments');
 const bigPictureClose = bigPicture.querySelector('.big-picture__cancel');
 const commentCount = bigPicture.querySelector('.social__comment-count');
-const loadComments = bigPicture.querySelector('.comments-loader');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 const commentFragment = document.createDocumentFragment();
+
+let currentPictureCommentsCount = COMMENTS_STEP;
+let currentComments = [];
 
 const onDocumentKeyDown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -29,7 +29,7 @@ function onBigPictureClose () {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeyDown);
-  curPicCommsCount = COMMENTS_STEP;
+  currentPictureCommentsCount = COMMENTS_STEP;
 }
 
 const createCommentElement = (comment) => {
@@ -59,16 +59,16 @@ const renderComments = () => {
   bigPictureComments.innerHTML = '';
   commentCount.innerHTML = '';
 
-  curPicCommsCount = (curPicCommsCount > curComms.length) ? curComms.length : curPicCommsCount;
-  const commentsSelected = curComms.slice(0, curPicCommsCount);
+  currentPictureCommentsCount = (currentPictureCommentsCount > currentComments.length) ? currentComments.length : currentPictureCommentsCount;
+  const commentsSelected = currentComments.slice(0, currentPictureCommentsCount);
 
-  if (curComms.length <= COMMENTS_STEP || curPicCommsCount >= curComms.length) {
-    loadComments.classList.add('hidden');
+  if (currentComments.length <= COMMENTS_STEP || currentPictureCommentsCount >= currentComments.length) {
+    commentsLoader.classList.add('hidden');
   } else {
-    loadComments.classList.remove('hidden');
+    commentsLoader.classList.remove('hidden');
   }
 
-  commentCount.innerHTML = `${curPicCommsCount} из <span class="comments-count">${curComms.length}</span> комментариев`;
+  commentCount.innerHTML = `${currentPictureCommentsCount} из <span class="comments-count">${currentComments.length}</span> комментариев`;
 
   for (let i = 0; i < commentsSelected.length; i++) {
     createCommentElement(commentsSelected[i]);
@@ -78,13 +78,13 @@ const renderComments = () => {
 };
 
 const onLoadComments = () => {
-  curPicCommsCount += COMMENTS_STEP;
+  currentPictureCommentsCount += COMMENTS_STEP;
   renderComments();
 };
 
-const getPicData = (smallPic) => {
+const getPicData = (smallPicture) => {
   for (let i = 0; i < photosData.length; i++) {
-    if (smallPic.src.toString().indexOf(photosData[i].url) !== -1) {
+    if (smallPicture.src.toString().indexOf(photosData[i].url) !== -1) {
       return photosData[i];
     }
   }
@@ -92,7 +92,7 @@ const getPicData = (smallPic) => {
 
 const renderBigPicture = (picture) => {
   const {url, likes, comments, description} = picture;
-  curComms = comments.slice();
+  currentComments = comments.slice();
 
   bigPictureImage.src = url;
   bigPictureLikesCount.textContent = likes;
@@ -100,7 +100,7 @@ const renderBigPicture = (picture) => {
   bigPictureDescription.textContent = description;
 };
 
-const onPicsContainerClick = (evt) => {
+const onPicturesContainerClick = (evt) => {
   if (evt.target.matches('.picture__img')) {
     evt.preventDefault();
     bigPicture.classList.remove('hidden');
@@ -109,9 +109,9 @@ const onPicsContainerClick = (evt) => {
     renderBigPicture(getPicData(evt.target));
 
     document.addEventListener('keydown', onDocumentKeyDown);
-    loadComments.addEventListener('click', onLoadComments);
+    commentsLoader.addEventListener('click', onLoadComments);
   }
 };
 
-picsContainer.addEventListener('click', onPicsContainerClick);
+picturesContainer.addEventListener('click', onPicturesContainerClick);
 bigPictureClose.addEventListener('click', onBigPictureClose);

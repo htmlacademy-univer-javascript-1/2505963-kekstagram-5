@@ -1,4 +1,4 @@
-const FORM_ERRORS = {
+const FormErrors = {
   DESCRIPTION_ERROR: 'Описание до 140 символов',
   HASHTAGS_COUNT_EXCEEDED: 'Превышено количество хэш-тегов',
   HASHTAGS_REPEATING: 'Хэш-теги повторяются',
@@ -25,12 +25,12 @@ const pristine = new Pristine(form, {
 function validateDescription (value) {
   return value.length <= MAX_DESCRIPTION_LENGTH;
 }
-pristine.addValidator(descriptionInput, validateDescription, FORM_ERRORS.DESCRIPTION_ERROR);
+pristine.addValidator(descriptionInput, validateDescription, FormErrors.DESCRIPTION_ERROR);
 
 function validateHashtagsCount (value) {
   return value.trim().split(/\s+/).length <= MAX_HASHTAGS_AMOUNT;
 }
-pristine.addValidator(hashtagsInput, validateHashtagsCount, FORM_ERRORS.HASHTAGS_COUNT_EXCEEDED);
+pristine.addValidator(hashtagsInput, validateHashtagsCount, FormErrors.HASHTAGS_COUNT_EXCEEDED);
 
 function validateHashtagRepeating (value) {
   const hashtags = value.trim().toLowerCase().split(/\s+/);
@@ -42,7 +42,7 @@ function validateHashtagRepeating (value) {
 
   return hashtags.length === set.size;
 }
-pristine.addValidator(hashtagsInput, validateHashtagRepeating, FORM_ERRORS.HASHTAGS_REPEATING);
+pristine.addValidator(hashtagsInput, validateHashtagRepeating, FormErrors.HASHTAGS_REPEATING);
 
 function validateHashtags (value) {
   const inputText = value.toLowerCase().trim();
@@ -58,6 +58,6 @@ function validateHashtags (value) {
   }
   return true;
 }
-pristine.addValidator(hashtagsInput, validateHashtags, FORM_ERRORS.INVALID_HASHTAG);
+pristine.addValidator(hashtagsInput, validateHashtags, FormErrors.INVALID_HASHTAG);
 
 export {pristine};

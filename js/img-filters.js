@@ -1,4 +1,4 @@
-import {renderPics} from './pics-render.js';
+import {renderPictures} from './pics-render.js';
 import {getRandomArrayElement} from './util.js';
 
 const RANDOM_FILTER_PICTURES_COUNT = 10;
@@ -7,11 +7,11 @@ const defaultFilter = document.querySelector('#filter-default');
 const randomFilter = document.querySelector('#filter-random');
 const discussedFilter = document.querySelector('#filter-discussed');
 
-const comparePicsByCommentsCount = (picA, picB) => {
-  const picACommentsCount = picA.comments.length;
-  const picBCommentsCount = picB.comments.length;
+const comparePicturesByCommentsCount = (pictureA, pictureB) => {
+  const pictureACommentsCount = pictureA.comments.length;
+  const pictureBCommentsCount = pictureB.comments.length;
 
-  return picBCommentsCount - picACommentsCount;
+  return pictureBCommentsCount - pictureACommentsCount;
 };
 
 const onDefaultFilterClick = (photosData) => {
@@ -19,7 +19,7 @@ const onDefaultFilterClick = (photosData) => {
   randomFilter.classList.remove('img-filters__button--active');
   discussedFilter.classList.remove('img-filters__button--active');
 
-  renderPics(photosData);
+  renderPictures(photosData);
 };
 
 const onRandomFilterClick = (photosData) => {
@@ -34,7 +34,7 @@ const onRandomFilterClick = (photosData) => {
     randomPhotos.push(photo);
     photosData.splice(photosData.indexOf(photo), 1);
   }
-  renderPics(randomPhotos);
+  renderPictures(randomPhotos);
 };
 
 const onDiscussedFilterClick = (photosData) => {
@@ -42,10 +42,10 @@ const onDiscussedFilterClick = (photosData) => {
   randomFilter.classList.remove('img-filters__button--active');
   discussedFilter.classList.add('img-filters__button--active');
 
-  renderPics(
+  renderPictures(
     photosData
       .slice()
-      .sort(comparePicsByCommentsCount)
+      .sort(comparePicturesByCommentsCount)
   );
 };
 

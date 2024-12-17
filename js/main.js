@@ -1,5 +1,5 @@
 import {loadPhotosData} from './api.js';
-import {renderPics} from './pics-render.js';
+import {renderPictures} from './pics-render.js';
 import './big-pic-popup.js';
 import './input-form.js';
 import './img-filters.js';
@@ -20,7 +20,7 @@ let photosData = [];
 
 const onSuccess = (data) => {
   photosData = data.slice();
-  renderPics(photosData);
+  renderPictures(photosData);
   document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
 

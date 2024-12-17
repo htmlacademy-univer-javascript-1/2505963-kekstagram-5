@@ -2,8 +2,8 @@ import {isEscapeKey} from './util.js';
 import {pristine} from './form-validation.js';
 import {
   DEFAULT_SCALE,
-  onPicSmallerBtnClick,
-  onPicBiggerBtnClick
+  onPictureSmallerButtonClick,
+  onPictureBiggerButtonClick
 } from './input-pic-scale.js';
 import {onEffectsListClick} from './input-pic-effects.js';
 import {uploadPhotosData} from './api.js';
@@ -114,8 +114,8 @@ function onFormCancel () {
 
   picScale['value'] = `${DEFAULT_SCALE}%`;
   picPreviewWrapper.style.transform = `scale(${DEFAULT_SCALE.toString()[0]})`;
-  picSmallerBtn.removeEventListener('click', onPicSmallerBtnClick);
-  picBiggerBtn.removeEventListener('click', onPicBiggerBtnClick);
+  picSmallerBtn.removeEventListener('click', onPictureSmallerButtonClick);
+  picBiggerBtn.removeEventListener('click', onPictureBiggerButtonClick);
 
   effectLevelValue['value'] = '';
   picPreviewWrapper.style.filter = '';
@@ -163,8 +163,8 @@ const onPhotoInput = () => {
   hashtagsInput.addEventListener('keydown', cancelDocumentKeyDown);
   descriptionInput.addEventListener('keydown', cancelDocumentKeyDown);
 
-  picSmallerBtn.addEventListener('click', onPicSmallerBtnClick);
-  picBiggerBtn.addEventListener('click', onPicBiggerBtnClick);
+  picSmallerBtn.addEventListener('click', onPictureSmallerButtonClick);
+  picBiggerBtn.addEventListener('click', onPictureBiggerButtonClick);
 
   sliderContainer.classList.add('hidden');
   effectsList.addEventListener('click', onEffectsListClick);

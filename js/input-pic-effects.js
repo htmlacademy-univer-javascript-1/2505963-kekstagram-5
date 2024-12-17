@@ -1,4 +1,4 @@
-const EFFECTS = {
+const Effects = {
   'chrome': {'style': 'grayscale', 'min': 0, 'max': 1, 'step': 0.1},
   'sepia': {'style': 'sepia', 'min': 0, 'max': 1, 'step': 0.1},
   'marvin': {'style': 'invert', 'min': 0, 'max': 100, 'step': 1},
@@ -9,13 +9,13 @@ const EFFECTS = {
 
 const effectLevelValue = document.querySelector('.effect-level__value');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
-const picPreview = document.querySelector('.img-upload__preview');
+const picturePreviewWrapper = document.querySelector('.img-upload__preview');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 
 function onEffectsListClick (evt) {
   if (evt.target.matches('.effects__radio')) {
-    const btn = evt.target;
-    const effect = btn['value'];
+    const button = evt.target;
+    const effect = button['value'];
 
     if (effectLevelSlider.noUiSlider) {
       effectLevelSlider.noUiSlider.destroy();
@@ -25,11 +25,11 @@ function onEffectsListClick (evt) {
       sliderContainer.classList.remove('hidden');
       noUiSlider.create(effectLevelSlider, {
         range: {
-          min: EFFECTS[effect]['min'],
-          max: EFFECTS[effect]['max']
+          min: Effects[effect]['min'],
+          max: Effects[effect]['max']
         },
-        start: EFFECTS[effect]['max'],
-        step: EFFECTS[effect]['step'],
+        start: Effects[effect]['max'],
+        step: Effects[effect]['step'],
         connect: 'lower'
       });
 
@@ -38,20 +38,20 @@ function onEffectsListClick (evt) {
 
         switch (effect) {
           case 'marvin':
-            picPreview.style.filter = `${EFFECTS[effect]['style']}(${effectLevelSlider.noUiSlider.get()}%)`;
+            picturePreviewWrapper.style.filter = `${Effects[effect]['style']}(${effectLevelSlider.noUiSlider.get()}%)`;
             break;
           case 'phobos':
-            picPreview.style.filter = `${EFFECTS[effect]['style']}(${effectLevelSlider.noUiSlider.get()}px)`;
+            picturePreviewWrapper.style.filter = `${Effects[effect]['style']}(${effectLevelSlider.noUiSlider.get()}px)`;
             break;
           default:
-            picPreview.style.filter = `${EFFECTS[effect]['style']}(${effectLevelSlider.noUiSlider.get()})`;
+            picturePreviewWrapper.style.filter = `${Effects[effect]['style']}(${effectLevelSlider.noUiSlider.get()})`;
             break;
         }
       });
     } else {
       sliderContainer.classList.add('hidden');
       effectLevelValue['value'] = '';
-      picPreview.style.filter = '';
+      picturePreviewWrapper.style.filter = '';
     }
   }
 }
