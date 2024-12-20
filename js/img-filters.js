@@ -1,4 +1,4 @@
-import {renderPictures} from './pics-render.js';
+import {renderPictures} from './pictures-render.js';
 import {getRandomArrayElement} from './util.js';
 
 const RANDOM_FILTER_PICTURES_COUNT = 10;

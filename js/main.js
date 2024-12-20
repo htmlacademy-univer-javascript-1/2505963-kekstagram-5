@@ -1,6 +1,6 @@
 import {loadPhotosData} from './api.js';
-import {renderPictures} from './pics-render.js';
-import './big-pic-popup.js';
+import {renderPictures} from './pictures-render.js';
+import './big-picture-popup.js';
 import './input-form.js';
 import './img-filters.js';
 import {
@@ -46,4 +46,4 @@ defaultFilter.addEventListener('click', debounce(() => onDefaultFilterClick(phot
 randomFilter.addEventListener('click', debounce(() => onRandomFilterClick(photosData)), RERENDER_DELAY);
 discussedFilter.addEventListener('click', debounce(() => onDiscussedFilterClick(photosData)), RERENDER_DELAY);
 
-export {photosData, onFail};
+export {photosData, onSuccess, onFail};

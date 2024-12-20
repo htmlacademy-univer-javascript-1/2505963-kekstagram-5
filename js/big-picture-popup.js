@@ -1,5 +1,5 @@
 import {photosData} from './main.js';
-import {picturesContainer} from './pics-render.js';
+import {picturesContainer} from './pictures-render.js';
 import {isEscapeKey} from './util.js';
 
 const COMMENTS_STEP = 5;

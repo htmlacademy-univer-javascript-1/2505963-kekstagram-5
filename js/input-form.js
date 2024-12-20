@@ -4,8 +4,8 @@ import {
   DEFAULT_SCALE,
   onPictureSmallerButtonClick,
   onPictureBiggerButtonClick
-} from './input-pic-scale.js';
-import {onEffectsListClick} from './input-pic-effects.js';
+} from './input-picture-scale.js';
+import {onEffectsListClick} from './input-picture-effects.js';
 import {uploadPhotosData} from './api.js';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
@@ -16,23 +16,23 @@ const UploadBtnText = {
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
-const photoInputBtn = form.querySelector('.img-upload__input');
+const photoInputButton = form.querySelector('.img-upload__input');
 const formCancel = form.querySelector('.img-upload__cancel');
 const postEditForm = form.querySelector('.img-upload__overlay');
 const hashtagsInput = postEditForm.querySelector('.text__hashtags');
 const descriptionInput = postEditForm.querySelector('.text__description');
-const picSmallerBtn = document.querySelector('.scale__control--smaller');
-const picBiggerBtn = document.querySelector('.scale__control--bigger');
-const picScale = document.querySelector('.scale__control--value');
-const picPreviewWrapper = document.querySelector('.img-upload__preview');
+const pictureSmallerButton = document.querySelector('.scale__control--smaller');
+const pictureBiggerButton = document.querySelector('.scale__control--bigger');
+const pictureScale = document.querySelector('.scale__control--value');
+const picturePreviewWrapper = document.querySelector('.img-upload__preview');
 const effectsList = document.querySelector('.effects__list');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
-const uploadBtn = document.querySelector('.img-upload__submit');
+const uploadButton = document.querySelector('.img-upload__submit');
 const successBlock = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-const successBtn = successBlock.querySelector('.success__button');
+const successButton = successBlock.querySelector('.success__button');
 const errorBlock = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-const errorBtn = successBlock.querySelector('.error__button');
+const errorButton = successBlock.querySelector('.error__button');
 
 successBlock.classList.add('hidden');
 body.appendChild(successBlock);
@@ -61,34 +61,34 @@ const onErrorBlockKeyDown = (evt) => {
   }
 };
 
-const blockUploadBtn = () => {
-  uploadBtn.disabled = true;
-  uploadBtn.textContent = UploadBtnText.SENDING;
+const blockUploadButton = () => {
+  uploadButton.disabled = true;
+  uploadButton.textContent = UploadBtnText.SENDING;
 };
 
-const unblockUploadBtn = () => {
-  uploadBtn.disabled = false;
-  uploadBtn.textContent = UploadBtnText.IDLE;
+const unblockUploadButton = () => {
+  uploadButton.disabled = false;
+  uploadButton.textContent = UploadBtnText.IDLE;
 };
 
 const onSuccessUpload = () => {
-  unblockUploadBtn();
+  unblockUploadButton();
   onFormCancel();
 
   successBlock.classList.remove('hidden');
   successBlock.addEventListener('click', onClickOutsideSuccessBlock);
   document.addEventListener('keydown', onSuccessBlockKeyDown);
-  successBtn.addEventListener('click', onSuccessBlockCancel);
+  successButton.addEventListener('click', onSuccessBlockCancel);
 };
 
 const onFailUpload = () => {
-  unblockUploadBtn();
+  unblockUploadButton();
 
   errorBlock.classList.remove('hidden');
   errorBlock.addEventListener('click', onClickOutsideErrorBlock);
   document.removeEventListener('keydown', onDocumentKeyDown);
   document.addEventListener('keydown', onErrorBlockKeyDown);
-  errorBtn.addEventListener('click', onErrorBlockCancel);
+  errorButton.addEventListener('click', onErrorBlockCancel);
 };
 
 const onFormSubmit = (evt) => {
@@ -96,7 +96,7 @@ const onFormSubmit = (evt) => {
 
   const isValid = pristine.validate();
   if (isValid) {
-    blockUploadBtn();
+    blockUploadButton();
     const requestBody = new FormData(form);
     uploadPhotosData(onSuccessUpload, onFailUpload, requestBody);
   }
@@ -112,13 +112,13 @@ function onFormCancel () {
   hashtagsInput.removeEventListener('keydown', cancelDocumentKeyDown);
   descriptionInput.removeEventListener('keydown', cancelDocumentKeyDown);
 
-  picScale['value'] = `${DEFAULT_SCALE}%`;
-  picPreviewWrapper.style.transform = `scale(${DEFAULT_SCALE.toString()[0]})`;
-  picSmallerBtn.removeEventListener('click', onPictureSmallerButtonClick);
-  picBiggerBtn.removeEventListener('click', onPictureBiggerButtonClick);
+  pictureScale['value'] = `${DEFAULT_SCALE}%`;
+  picturePreviewWrapper.style.transform = `scale(${DEFAULT_SCALE.toString()[0]})`;
+  pictureSmallerButton.removeEventListener('click', onPictureSmallerButtonClick);
+  pictureBiggerButton.removeEventListener('click', onPictureBiggerButtonClick);
 
   effectLevelValue['value'] = '';
-  picPreviewWrapper.style.filter = '';
+  picturePreviewWrapper.style.filter = '';
   effectsList.removeEventListener('click', onEffectsListClick);
 }
 
@@ -147,11 +147,11 @@ function onClickOutsideErrorBlock (evt) {
 }
 
 const onPhotoInput = () => {
-  const file = photoInputBtn.files[0];
+  const file = photoInputButton.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
   if (matches) {
-    const preview = picPreviewWrapper.querySelector('img');
+    const preview = picturePreviewWrapper.querySelector('img');
     preview.src = URL.createObjectURL(file);
   }
 
@@ -163,12 +163,12 @@ const onPhotoInput = () => {
   hashtagsInput.addEventListener('keydown', cancelDocumentKeyDown);
   descriptionInput.addEventListener('keydown', cancelDocumentKeyDown);
 
-  picSmallerBtn.addEventListener('click', onPictureSmallerButtonClick);
-  picBiggerBtn.addEventListener('click', onPictureBiggerButtonClick);
+  pictureSmallerButton.addEventListener('click', onPictureSmallerButtonClick);
+  pictureBiggerButton.addEventListener('click', onPictureBiggerButtonClick);
 
   sliderContainer.classList.add('hidden');
   effectsList.addEventListener('click', onEffectsListClick);
 };
 
-photoInputBtn.addEventListener('change', onPhotoInput);
+photoInputButton.addEventListener('change', onPhotoInput);
 formCancel.addEventListener('click', onFormCancel);
