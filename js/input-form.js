@@ -32,20 +32,19 @@ const uploadButton = document.querySelector('.img-upload__submit');
 const successBlock = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 const successButton = successBlock.querySelector('.success__button');
 const errorBlock = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
-const errorButton = successBlock.querySelector('.error__button');
 
 successBlock.classList.add('hidden');
 body.appendChild(successBlock);
 errorBlock.classList.add('hidden');
 body.appendChild(errorBlock);
 
-function cancelDocumentKeyDown (evt) {
+function onDocumentKeyDownCancel (evt) {
   evt.stopPropagation();
 }
 
 const onDocumentKeyDown = (evt) => {
   if (isEscapeKey(evt)) {
-    onFormCancel();
+    formCancelHandler();
   }
 };
 
@@ -73,7 +72,7 @@ const unblockUploadButton = () => {
 
 const onSuccessUpload = () => {
   unblockUploadButton();
-  onFormCancel();
+  formCancelHandler();
 
   successBlock.classList.remove('hidden');
   successBlock.addEventListener('click', onClickOutsideSuccessBlock);
@@ -88,7 +87,6 @@ const onFailUpload = () => {
   errorBlock.addEventListener('click', onClickOutsideErrorBlock);
   document.removeEventListener('keydown', onDocumentKeyDown);
   document.addEventListener('keydown', onErrorBlockKeyDown);
-  errorButton.addEventListener('click', onErrorBlockCancel);
 };
 
 const onFormSubmit = (evt) => {
@@ -102,15 +100,17 @@ const onFormSubmit = (evt) => {
   }
 };
 
-function onFormCancel () {
+function formCancelHandler () {
   postEditForm.classList.add('hidden');
   body.classList.remove('modal-open');
   form.reset();
 
+  pristine.validate();
+
   document.removeEventListener('keydown', onDocumentKeyDown);
   form.removeEventListener('submit', onFormSubmit);
-  hashtagsInput.removeEventListener('keydown', cancelDocumentKeyDown);
-  descriptionInput.removeEventListener('keydown', cancelDocumentKeyDown);
+  hashtagsInput.removeEventListener('keydown', onDocumentKeyDownCancel);
+  descriptionInput.removeEventListener('keydown', onDocumentKeyDownCancel);
 
   pictureScale['value'] = `${DEFAULT_SCALE}%`;
   picturePreviewWrapper.style.transform = `scale(${DEFAULT_SCALE.toString()[0]})`;
@@ -146,7 +146,7 @@ function onClickOutsideErrorBlock (evt) {
   }
 }
 
-const onPhotoInput = () => {
+const photoInputHandler = () => {
   const file = photoInputButton.files[0];
   const fileName = file.name.toLowerCase();
   const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
@@ -160,8 +160,8 @@ const onPhotoInput = () => {
   postEditForm.classList.remove('hidden');
 
   form.addEventListener('submit', onFormSubmit);
-  hashtagsInput.addEventListener('keydown', cancelDocumentKeyDown);
-  descriptionInput.addEventListener('keydown', cancelDocumentKeyDown);
+  hashtagsInput.addEventListener('keydown', onDocumentKeyDownCancel);
+  descriptionInput.addEventListener('keydown', onDocumentKeyDownCancel);
 
   pictureSmallerButton.addEventListener('click', onPictureSmallerButtonClick);
   pictureBiggerButton.addEventListener('click', onPictureBiggerButtonClick);
@@ -170,5 +170,5 @@ const onPhotoInput = () => {
   effectsList.addEventListener('click', onEffectsListClick);
 };
 
-photoInputButton.addEventListener('change', onPhotoInput);
-formCancel.addEventListener('click', onFormCancel);
+photoInputButton.addEventListener('change', photoInputHandler);
+formCancel.addEventListener('click', formCancelHandler);

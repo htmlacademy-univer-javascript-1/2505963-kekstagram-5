@@ -1,9 +1,11 @@
+const PICTURES_CONTAINER_CHILDREN_MINIMUM_COUNT = 2;
+
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
 
 const renderPictures = (photosData) => {
-  if (picturesContainer.children.length > 2) {
-    while (picturesContainer.children.length > 2) {
+  if (picturesContainer.children.length > PICTURES_CONTAINER_CHILDREN_MINIMUM_COUNT) {
+    while (picturesContainer.children.length > PICTURES_CONTAINER_CHILDREN_MINIMUM_COUNT) {
       const photo = picturesContainer.lastChild;
       photo.parentNode.removeChild(photo);
     }

@@ -42,8 +42,8 @@ const onFail = (errorMessage) => {
 
 loadPhotosData(onSuccess, onFail);
 
-defaultFilter.addEventListener('click', debounce(() => onDefaultFilterClick(photosData)), RERENDER_DELAY);
-randomFilter.addEventListener('click', debounce(() => onRandomFilterClick(photosData)), RERENDER_DELAY);
-discussedFilter.addEventListener('click', debounce(() => onDiscussedFilterClick(photosData)), RERENDER_DELAY);
+defaultFilter.addEventListener('click', debounce(() => onDefaultFilterClick(photosData), RERENDER_DELAY));
+randomFilter.addEventListener('click', debounce(() => onRandomFilterClick(photosData), RERENDER_DELAY));
+discussedFilter.addEventListener('click', debounce(() => onDiscussedFilterClick(photosData), RERENDER_DELAY));
 
 export {photosData, onSuccess, onFail};

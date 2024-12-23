@@ -1,14 +1,14 @@
+const MAX_HASHTAGS_AMOUNT = 5;
+const MAX_DESCRIPTION_LENGTH = 140;
+
+const HASHTAG_MASK = /^#[a-zа-яё0-9]{1,19}$/i;
+
 const FormErrors = {
   DESCRIPTION_ERROR: 'Описание до 140 символов',
   HASHTAGS_COUNT_EXCEEDED: 'Превышено количество хэш-тегов',
   HASHTAGS_REPEATING: 'Хэш-теги повторяются',
   INVALID_HASHTAG: 'Введён невалидный хэш-тег'
 };
-
-const HASHTAG_MASK = /^#[a-zа-яё0-9]{1,19}$/i;
-
-const MAX_HASHTAGS_AMOUNT = 5;
-const MAX_DESCRIPTION_LENGTH = 140;
 
 const form = document.querySelector('.img-upload__form');
 const postEditForm = form.querySelector('.img-upload__overlay');
