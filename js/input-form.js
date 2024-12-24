@@ -15,23 +15,23 @@ const UploadBtnText = {
 };
 
 const body = document.querySelector('body');
-const form = document.querySelector('.img-upload__form');
+const form = body.querySelector('.img-upload__form');
 const photoInputButton = form.querySelector('.img-upload__input');
-const formCancel = form.querySelector('.img-upload__cancel');
 const postEditForm = form.querySelector('.img-upload__overlay');
+const formCancel = postEditForm.querySelector('.img-upload__cancel');
 const hashtagsInput = postEditForm.querySelector('.text__hashtags');
 const descriptionInput = postEditForm.querySelector('.text__description');
-const pictureSmallerButton = document.querySelector('.scale__control--smaller');
-const pictureBiggerButton = document.querySelector('.scale__control--bigger');
-const pictureScale = document.querySelector('.scale__control--value');
-const picturePreviewWrapper = document.querySelector('.img-upload__preview');
-const effectsList = document.querySelector('.effects__list');
-const effectLevelValue = document.querySelector('.effect-level__value');
-const sliderContainer = document.querySelector('.img-upload__effect-level');
-const uploadButton = document.querySelector('.img-upload__submit');
-const successBlock = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const pictureSmallerButton = postEditForm.querySelector('.scale__control--smaller');
+const pictureBiggerButton = postEditForm.querySelector('.scale__control--bigger');
+const pictureScale = postEditForm.querySelector('.scale__control--value');
+const picturePreviewWrapper = postEditForm.querySelector('.img-upload__preview');
+const effectsList = postEditForm.querySelector('.effects__list');
+const sliderContainer = postEditForm.querySelector('.img-upload__effect-level');
+const effectLevelValue = sliderContainer.querySelector('.effect-level__value');
+const uploadButton = postEditForm.querySelector('.img-upload__submit');
+const successBlock = body.querySelector('#success').content.querySelector('.success').cloneNode(true);
 const successButton = successBlock.querySelector('.success__button');
-const errorBlock = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+const errorBlock = body.querySelector('#error').content.querySelector('.error').cloneNode(true);
 
 successBlock.classList.add('hidden');
 body.appendChild(successBlock);

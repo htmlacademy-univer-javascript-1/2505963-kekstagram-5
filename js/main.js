@@ -12,16 +12,17 @@ import {debounce} from './util.js';
 
 const RERENDER_DELAY = 500;
 
-const defaultFilter = document.querySelector('#filter-default');
-const randomFilter = document.querySelector('#filter-random');
-const discussedFilter = document.querySelector('#filter-discussed');
+const imageFilters = document.querySelector('.img-filters');
+const defaultFilter = imageFilters.querySelector('#filter-default');
+const randomFilter = imageFilters.querySelector('#filter-random');
+const discussedFilter = imageFilters.querySelector('#filter-discussed');
 
 let photosData = [];
 
 const onSuccess = (data) => {
   photosData = data.slice();
   renderPictures(photosData);
-  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+  imageFilters.classList.remove('img-filters--inactive');
 };
 
 const onFail = (errorMessage) => {

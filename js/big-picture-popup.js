@@ -6,7 +6,7 @@ const COMMENTS_STEP = 5;
 const COMMENT_AVATAR_SIZE = 35;
 
 const body = document.querySelector('body');
-const bigPicture = document.querySelector('.big-picture');
+const bigPicture = body.querySelector('.big-picture');
 const bigPictureImage = bigPicture.querySelector('.big-picture__img').querySelector('img');
 const bigPictureLikesCount = bigPicture.querySelector('.likes-count');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');

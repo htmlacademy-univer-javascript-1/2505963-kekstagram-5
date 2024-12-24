@@ -7,10 +7,10 @@ const Effects = {
   'none': {},
 };
 
-const effectLevelValue = document.querySelector('.effect-level__value');
-const effectLevelSlider = document.querySelector('.effect-level__slider');
-const picturePreviewWrapper = document.querySelector('.img-upload__preview');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
+const effectLevelValue = sliderContainer.querySelector('.effect-level__value');
+const effectLevelSlider = sliderContainer.querySelector('.effect-level__slider');
+const picturePreviewWrapper = document.querySelector('.img-upload__preview');
 
 function onEffectsListClick (evt) {
   if (evt.target.matches('.effects__radio')) {
